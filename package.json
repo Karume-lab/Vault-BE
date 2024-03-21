@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "dotenv": "^16.3.2",
+    "hardhat": "^2.19.4"
+  },
+  "scripts": {
+    "dev": "npx hardhat run scripts/deploy.js --network localhost"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0"
+  }
+}
