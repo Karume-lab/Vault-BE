@@ -21,8 +21,8 @@ const FileUpload = ({ contract, account }) => {
           {
             headers: {
               "Content-Type": "multipart/form-data",
-              "pinata_api_key": import.meta.env.VITE_PINATA_API_KEY,
-              "pinata_secret_api_key": import.meta.env.VITE_PINATA_SECRET_KEY,
+              "pinata_api_key": "d0a0c171fb5a2a6445ef",
+              "pinata_secret_api_key": "df31edfa2230ade6d8f8a664ff14418c0d7be155bba5da23d9e132825cd63dcf",
             },
           }
         );

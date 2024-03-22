@@ -47,7 +47,6 @@ const Display = ({ contract, account }) => {
         {data?.map((item, index) => (
           <div key={index} className="mb-4 w-[330px] h-[200px]">
             <img
-              crossOrigin="anonymous"
               src={`https://gateway.pinata.cloud/ipfs/${item}`}
               alt="new images"
               className="rounded-lg shadow-md h-full w-full object-fill"

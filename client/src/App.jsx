@@ -47,7 +47,7 @@ const App = () => {
       }
     };
     provider && loadProvider();
-  }, []);
+  }, [enqueueSnackbar]);
 
   return (
     <>

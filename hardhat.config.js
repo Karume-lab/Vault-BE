@@ -16,7 +16,7 @@ module.exports = {
     // accounts: [PRIVATE_KEY],
   },
   paths: {
-    artifacts: "./client/src//artifacts",
+    artifacts: "./client/src/artifacts",
   },
   // },
   // etherscan: {    // to verify contract in CLI way（也有GUI的，可以在etherscan ui 那边进行verify，只不过CLI 比较方便 一行command 解决）
