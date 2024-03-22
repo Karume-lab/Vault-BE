@@ -47,7 +47,7 @@ const Display = ({ contract, account }) => {
         {data?.map((item, index) => (
           <div key={index} className="mb-4 w-[330px] h-[200px]">
             <img
-              src={`https://gateway.pinata.cloud/ipfs/${item}`}
+              src={`https://ipfs.io/ipfs/${item}`}
               alt="new images"
               className="rounded-lg shadow-md h-full w-full object-fill"
             />
