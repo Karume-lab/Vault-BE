@@ -115,13 +115,21 @@ contract Upload {
         }
     }
 
-    function display(address _user) external view returns (string[] memory) {
+    function display(address _user) external view returns (File[] memory) {
         require(
-            _user == msg.sender || ownership[_user][msg.sender],
+            _user == msg.sender || Vault[_user][msg.sender],
             "You don't have access"
         );
-        return value[_user];
+        return Files[_user];
     }
+
+    // function display(address _user) external view returns (string[] memory) {
+    //     require(
+    //         _user == msg.sender || ownership[_user][msg.sender],
+    //         "You don't have access"
+    //     );
+    //     return value[_user];
+    // }
 
     function shareAccess() public view returns (Access[] memory) {
         return accessList[msg.sender];

@@ -3,7 +3,7 @@ import { useSnackbar } from "notistack";
 
 const Display = ({ contract, account }) => {
   const { enqueueSnackbar } = useSnackbar();
-  const [data, setData] = useState([]);
+  const [files, setFiles] = useState([]);
   const [otherAddress, setOtherAddress] = useState(""); // State to manage the input value
 
   const getdata = async () => {
@@ -11,10 +11,10 @@ const Display = ({ contract, account }) => {
     try {
       if (otherAddress) {
         dataArray = await contract.display(otherAddress);
-        console.log(dataArray);
       } else {
         dataArray = await contract.display(account);
       }
+      console.log(Object.keys(dataArray[0]));
     } catch (error) {
       enqueueSnackbar("You don't have access", { variant: 'error' });
       console.error(error);
@@ -22,11 +22,20 @@ const Display = ({ contract, account }) => {
     const isEmpty = dataArray.length === 0;
 
     if (!isEmpty) {
-      setData(dataArray);
+      setFiles(dataArray);
       enqueueSnackbar('Get Image successfully', { variant: 'success' });
     } else {
       enqueueSnackbar('No image to display', { variant: 'info' });
     }
+  };
+  const convertToDateTime = (timestamp) => {
+    let date;
+    if (timestamp.toString() === "0") {
+      date = null;
+    } else {
+      date = new Date(timestamp * 1000).toUTCString();
+    }
+    return date;
   };
   return (
     <>
@@ -44,15 +53,26 @@ const Display = ({ contract, account }) => {
         Get Data
       </button>
       <div className="flex flex-col flex-grow md:flex-row justify-between flex-wrap md:p-4">
-        {data?.map((item, index) => (
-          <div key={index} className="mb-4 w-[330px] h-[200px]">
+        {files?.map(({ owner, dateUploaded, dateModified, dateAccessed, isFavourite, isArchived, cid, name, description, extension, tag }) => (
+          <div key={cid} className="mb-4 w-[330px] h-[200px]">
             <img
-              src={`https://ipfs.io/ipfs/${item}`}
+              src={`https://ipfs.io/ipfs/${cid}`}
               alt="new images"
               className="rounded-lg shadow-md h-full w-full object-fill"
             />
+            <div>{owner}</div>
+            <div>{convertToDateTime(dateAccessed)}</div>
+            <div>{convertToDateTime(dateModified)}</div>
+            <div>{convertToDateTime(dateUploaded)}</div>
+            <div>{isFavourite}</div>
+            <div>{isArchived}</div>
+            <div>{name}</div>
+            <div>{description}</div>
+            <div>{extension}</div>
+            <div>{tag}</div>
           </div>
         ))}
+
       </div>
     </>
   );
