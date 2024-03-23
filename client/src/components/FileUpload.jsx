@@ -12,6 +12,7 @@ const FileUpload = ({ contract, account }) => {
     if (file) {
       try {
         const formData = new FormData();
+        const fileExtension = fileName.split(".").pop();
         formData.append("file", file);
 
         // IPFS 是分布式的，so cannot delete once uploaded
@@ -26,7 +27,9 @@ const FileUpload = ({ contract, account }) => {
             },
           }
         );
-        contract.add(account, resFile.data.IpfsHash);
+
+        // name, description, extension, isFavorite, tag, cid
+        contract.add(account, fileName, document.querySelector("#fileDescription").value, fileExtension, document.querySelector("#isFavourite").checked, 1, resFile.data.IpfsHash);
         enqueueSnackbar('Successfully Image Uploaded', { variant: 'success' });
         setFileName("No image selected");
         setFile(null);
@@ -58,7 +61,7 @@ const FileUpload = ({ contract, account }) => {
           htmlFor="file-upload"
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer mb-4"
         >
-          Choose Image
+          Choose File
         </label>
         <input
           disabled={!account}
@@ -69,8 +72,16 @@ const FileUpload = ({ contract, account }) => {
           className="hidden"
         />
         <span className="textArea text-gray-700 mb-4">
-          Image: {fileName}
+          File: {fileName}
         </span>
+
+        <div>
+          <label htmlFor="isFavourite">Favourite:</label>
+          <input id="isFavourite" type="checkbox" />
+        </div>
+
+        <textarea name="fileDescription" id="fileDescription" cols="30" rows="10" placeholder="File Description"></textarea>
+
         <button
           type="submit"
           className={`bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ${account ? '' : 'cursor-not-allowed opacity-50'
