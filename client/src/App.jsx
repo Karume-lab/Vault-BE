@@ -16,7 +16,7 @@ const App = () => {
 
   useEffect(() => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const contractAddress = "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9";
+    const contractAddress = import.meta.env.VITE_CONTRACT_ADDRESS;
     const contractABI = abi.abi;
 
     const loadProvider = async () => {
