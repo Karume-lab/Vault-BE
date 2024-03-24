@@ -3,7 +3,7 @@ import Display from './components/Display';
 import FileUpload from './components/FileUpload';
 import Modal from './components/Modal';
 import { ethers } from "ethers"
-import abi from "./abi/Upload.json"
+import abi from "./abi/Vault.json"
 import { useSnackbar } from "notistack";
 
 const App = () => {

@@ -29,7 +29,7 @@ const FileUpload = ({ contract, account }) => {
         );
 
         // name, description, extension, isFavorite, tag, cid
-        contract.add(account, fileName, document.querySelector("#fileDescription").value, fileExtension, document.querySelector("#isFavourite").checked, 1, resFile.data.IpfsHash);
+        contract.uploadFile(account, fileName, document.querySelector("#fileDescription").value, fileExtension, document.querySelector("#isFavourite").checked, 1, resFile.data.IpfsHash);
         enqueueSnackbar('Successfully Image Uploaded', { variant: 'success' });
         setFileName("No image selected");
         setFile(null);

@@ -2,7 +2,7 @@
 
 pragma solidity >=0.7.0 <0.9.0;
 
-contract Upload {
+contract Vault {
     // tags to be used for files
     enum Tags {
         EDUCATION,
@@ -31,30 +31,21 @@ contract Upload {
     }
 
     // defines who has access to a user's vault
-    // struct Access {
-    //     address user;
-    //     bool hasAccess;
-    // }
-
     struct Access {
         address user;
-        bool access;
+        bool hasAccess;
     }
-    mapping(address => string[]) value; // store our hash value
-    mapping(address => mapping(address => bool)) ownership;
-    mapping(address => Access[]) accessList;
-    mapping(address => mapping(address => bool)) previousData;
 
     // stores a user's file metadata
     mapping(address => File[]) Files;
     // stores the logged in user's files
-    mapping(address => mapping(address => bool)) Vault;
+    mapping(address => mapping(address => bool)) MyVault;
     // Defines the people who have access to your vault
     mapping(address => Access[]) AccessList;
     // Stores the previous access value
     mapping(address => mapping(address => bool)) PreviousAccess;
 
-    function add(
+    function uploadFile(
         address _owner,
         string memory _name,
         string memory _description,
@@ -92,46 +83,38 @@ contract Upload {
         return id;
     }
 
-    function allow(address user) external {
-        ownership[msg.sender][user] = true;
-        if (previousData[msg.sender][user]) {
-            for (uint i = 0; i < accessList[msg.sender].length; i++) {
-                if (accessList[msg.sender][i].user == user) {
-                    accessList[msg.sender][i].access = true;
+    function shareVault(address user) external {
+        MyVault[msg.sender][user] = true;
+        if (PreviousAccess[msg.sender][user]) {
+            for (uint i = 0; i < AccessList[msg.sender].length; i++) {
+                if (AccessList[msg.sender][i].user == user) {
+                    AccessList[msg.sender][i].hasAccess = true;
                 }
             }
         } else {
-            accessList[msg.sender].push(Access(user, true));
-            previousData[msg.sender][user] = true;
+            AccessList[msg.sender].push(Access(user, true));
+            PreviousAccess[msg.sender][user] = true;
         }
     }
 
-    function disallow(address user) public {
-        ownership[msg.sender][user] = false;
-        for (uint i = 0; i < accessList[msg.sender].length; i++) {
-            if (accessList[msg.sender][i].user == user) {
-                accessList[msg.sender][i].access = false;
+    function unshareVault(address user) public {
+        MyVault[msg.sender][user] = false;
+        for (uint i = 0; i < AccessList[msg.sender].length; i++) {
+            if (AccessList[msg.sender][i].user == user) {
+                AccessList[msg.sender][i].hasAccess = false;
             }
         }
     }
 
-    function display(address _user) external view returns (File[] memory) {
+    function getFiles(address _user) external view returns (File[] memory) {
         require(
-            _user == msg.sender || Vault[_user][msg.sender],
+            _user == msg.sender || MyVault[_user][msg.sender],
             "You don't have access"
         );
         return Files[_user];
     }
 
-    // function display(address _user) external view returns (string[] memory) {
-    //     require(
-    //         _user == msg.sender || ownership[_user][msg.sender],
-    //         "You don't have access"
-    //     );
-    //     return value[_user];
-    // }
-
-    function shareAccess() public view returns (Access[] memory) {
-        return accessList[msg.sender];
+    function getUsersWithAccess() public view returns (Access[] memory) {
+        return AccessList[msg.sender];
     }
 }

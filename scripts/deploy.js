@@ -7,12 +7,12 @@
 const hre = require("hardhat");
 
 async function main() {
-  const Upload = await hre.ethers.getContractFactory("Upload");   //fetching bytecode and ABI
-  const upload = await Upload.deploy();  //creating an instance of our smart contract 
+  const Vault = await hre.ethers.getContractFactory("Vault");   //fetching bytecode and ABI
+  const vault = await Vault.deploy();  //creating an instance of our smart contract 
 
-  await upload.waitForDeployment();  // deploying our smart contract
+  await vault.waitForDeployment();  // deploying our smart contract
 
-  console.log(`Deployed contract address: ${await upload.getAddress()}`);
+  console.log(`Deployed contract address: ${await vault.getAddress()}`);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

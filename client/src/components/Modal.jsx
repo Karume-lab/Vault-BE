@@ -9,7 +9,7 @@ const Modal = ({ setModalOpen, contract }) => {
     const sharing = async () => {
         try {
             if (addressInput) {
-                await contract.allow(addressInput);
+                await contract.shareVault(addressInput);
                 enqueueSnackbar('Share successfully', { variant: 'success' });
                 setModalOpen(false);
             } else {
@@ -25,7 +25,7 @@ const Modal = ({ setModalOpen, contract }) => {
 
     useEffect(() => {
         const accessList = async () => {
-            const list = await contract.shareAccess();
+            const list = await contract.getUsersWithAccess();
             setAddressList(list);
         };
         contract && accessList();

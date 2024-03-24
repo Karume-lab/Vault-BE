@@ -9,12 +9,7 @@ const Display = ({ contract, account }) => {
   const getdata = async () => {
     let dataArray;
     try {
-      if (otherAddress) {
-        dataArray = await contract.display(otherAddress);
-      } else {
-        dataArray = await contract.display(account);
-      }
-      console.log(Object.keys(dataArray[0]));
+      dataArray = await contract.getFiles(otherAddress ? otherAddress : account);
     } catch (error) {
       enqueueSnackbar("You don't have access", { variant: 'error' });
       console.error(error);
@@ -23,12 +18,12 @@ const Display = ({ contract, account }) => {
 
     if (!isEmpty) {
       setFiles(dataArray);
-      enqueueSnackbar('Get Image successfully', { variant: 'success' });
+      enqueueSnackbar('Get files successfully', { variant: 'success' });
     } else {
-      enqueueSnackbar('No image to display', { variant: 'info' });
+      enqueueSnackbar('No file to display', { variant: 'info' });
     }
   };
-  const convertToDateTime = (timestamp) => {
+  const timestamp2DateTime = (timestamp) => {
     let date;
     if (timestamp.toString() === "0") {
       date = null;
@@ -61,9 +56,9 @@ const Display = ({ contract, account }) => {
               className="rounded-lg shadow-md h-full w-full object-fill"
             />
             <div>{owner}</div>
-            <div>{convertToDateTime(dateAccessed)}</div>
-            <div>{convertToDateTime(dateModified)}</div>
-            <div>{convertToDateTime(dateUploaded)}</div>
+            <div>{timestamp2DateTime(dateAccessed)}</div>
+            <div>{timestamp2DateTime(dateModified)}</div>
+            <div>{timestamp2DateTime(dateUploaded)}</div>
             <div>{isFavourite}</div>
             <div>{isArchived}</div>
             <div>{name}</div>
