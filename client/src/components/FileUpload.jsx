@@ -7,7 +7,6 @@ const FileUpload = ({ contract, account }) => {
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState("No image selected");
   const { enqueueSnackbar } = useSnackbar();
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (file) {
@@ -29,7 +28,7 @@ const FileUpload = ({ contract, account }) => {
           }
         );
 
-        // name, description, extension, isFavorite, tag, cid
+        // user, name, description, extension, isFavorite, tag, cid
         contract.uploadFile(account, fileName, document.querySelector("#fileDescription").value, fileExtension, document.querySelector("#isFavourite").checked, 1, resFile.data.IpfsHash);
         enqueueSnackbar('Successfully Image Uploaded', { variant: 'success' });
         setFileName("No image selected");
@@ -45,7 +44,7 @@ const FileUpload = ({ contract, account }) => {
   };
 
   const retrieveFile = (e) => {
-    const data = e.target.files[0];   // array-like object, so using [] to access obj's value
+    const data = e.target.files[0];
     const reader = new window.FileReader();
     reader.readAsArrayBuffer(data);
     reader.onloadend = () => {
@@ -82,8 +81,6 @@ const FileUpload = ({ contract, account }) => {
         </div>
 
         <textarea name="fileDescription" id="fileDescription" cols="30" rows="10" placeholder="File Description"></textarea>
-        
-        
         <TagsDropdown contract={contract} />
 
         <button

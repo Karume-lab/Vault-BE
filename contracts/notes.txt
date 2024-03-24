@@ -32,3 +32,21 @@ enums: {
 Tag => id,
 name                                     ;
 }
+
+TODO:
+# research
+recents:
+when to set the time -> on which event?
+
+# testing
+favorites
+tags
+
+link BE and FE
+sign in
+sign out
+
+# post MVP
+deleting Files
+searching
+modify the code to use hooks instead of tradition JS DOM

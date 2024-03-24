@@ -92,6 +92,61 @@ contract Vault {
         return Files[_user];
     }
 
+    // get all files for the specified tag for the connected wallet
+    function getFilesByTag(
+        address _user,
+        uint _tag
+    ) external view returns (File[] memory) {
+        require(
+            _user == msg.sender || MyVault[_user][msg.sender],
+            "You don't have access"
+        );
+
+        File[] memory allFiles = Files[_user];
+        File[] memory filesWithTag = new File[](allFiles.length);
+        uint256 count = 0;
+
+        // Iterate through all files and filter out the favourite ones
+        for (uint256 i = 0; i < allFiles.length; i++) {
+            if (uint(allFiles[i].tag) == _tag) {
+                filesWithTag[count] = allFiles[i];
+                count++;
+            }
+        }
+        // Resize the array to remove any empty slots
+        assembly {
+            mstore(filesWithTag, count)
+        }
+        return filesWithTag;
+    }
+
+    // Get all files marked as favourite for the connected wallet
+    function getFilesMarkedAsFavourite(
+        address _user
+    ) external view returns (File[] memory) {
+        require(
+            _user == msg.sender || MyVault[_user][msg.sender],
+            "You don't have access"
+        );
+
+        File[] memory allFiles = Files[_user];
+        File[] memory favouriteFiles = new File[](allFiles.length);
+        uint256 count = 0;
+
+        // Iterate through all files and filter out the favourite ones
+        for (uint256 i = 0; i < allFiles.length; i++) {
+            if (allFiles[i].isFavourite) {
+                favouriteFiles[count] = allFiles[i];
+                count++;
+            }
+        }
+        // Resize the array to remove any empty slots
+        assembly {
+            mstore(favouriteFiles, count)
+        }
+        return favouriteFiles;
+    }
+
     // share your vault to an address
     function shareVault(address user) external {
         MyVault[msg.sender][user] = true;

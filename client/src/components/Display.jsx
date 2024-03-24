@@ -4,7 +4,7 @@ import { useSnackbar } from "notistack";
 const Display = ({ contract, account }) => {
   const { enqueueSnackbar } = useSnackbar();
   const [files, setFiles] = useState([]);
-  const [otherAddress, setOtherAddress] = useState(""); // State to manage the input value
+  const [otherAddress, setOtherAddress] = useState("");
 
   const getdata = async () => {
     let dataArray;
@@ -18,9 +18,9 @@ const Display = ({ contract, account }) => {
 
     if (!isEmpty) {
       setFiles(dataArray);
-      enqueueSnackbar('Get files successfully', { variant: 'success' });
+      enqueueSnackbar('Fetched files successfully', { variant: 'success' });
     } else {
-      enqueueSnackbar('No file to display', { variant: 'info' });
+      enqueueSnackbar('No file(s) to display', { variant: 'info' });
     }
   };
   const timestamp2DateTime = (timestamp) => {
@@ -67,7 +67,6 @@ const Display = ({ contract, account }) => {
             <div>{tag}</div>
           </div>
         ))}
-
       </div>
     </>
   );
