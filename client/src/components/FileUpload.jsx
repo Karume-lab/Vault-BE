@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useSnackbar } from "notistack";
+import TagsDropdown from "./TagsDropdown";
 
 const FileUpload = ({ contract, account }) => {
   const [file, setFile] = useState(null);
@@ -81,6 +82,9 @@ const FileUpload = ({ contract, account }) => {
         </div>
 
         <textarea name="fileDescription" id="fileDescription" cols="30" rows="10" placeholder="File Description"></textarea>
+        
+        
+        <TagsDropdown contract={contract} />
 
         <button
           type="submit"

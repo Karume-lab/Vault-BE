@@ -5,13 +5,13 @@ pragma solidity >=0.7.0 <0.9.0;
 contract Vault {
     // tags to be used for files
     enum Tags {
+        OTHER,
         EDUCATION,
         HEALTH,
         FINANCE,
         BUSINESS,
         FAMILY,
-        RANDOM,
-        OTHER
+        RANDOM
     }
 
     // contains metadata for each file
@@ -83,6 +83,16 @@ contract Vault {
         return id;
     }
 
+    // get all files for the connected wallet
+    function getFiles(address _user) external view returns (File[] memory) {
+        require(
+            _user == msg.sender || MyVault[_user][msg.sender],
+            "You don't have access"
+        );
+        return Files[_user];
+    }
+
+    // share your vault to an address
     function shareVault(address user) external {
         MyVault[msg.sender][user] = true;
         if (PreviousAccess[msg.sender][user]) {
@@ -97,6 +107,7 @@ contract Vault {
         }
     }
 
+    // unshare your vault from an address
     function unshareVault(address user) public {
         MyVault[msg.sender][user] = false;
         for (uint i = 0; i < AccessList[msg.sender].length; i++) {
@@ -106,14 +117,23 @@ contract Vault {
         }
     }
 
-    function getFiles(address _user) external view returns (File[] memory) {
-        require(
-            _user == msg.sender || MyVault[_user][msg.sender],
-            "You don't have access"
-        );
-        return Files[_user];
+    // get the tags in the enum
+    function getTags() public pure returns (string[] memory) {
+        string[] memory tags = new string[](7);
+
+        // Assign the enum values to the array
+        tags[uint(Tags.OTHER)] = "Other";
+        tags[uint(Tags.EDUCATION)] = "Education";
+        tags[uint(Tags.HEALTH)] = "Health";
+        tags[uint(Tags.FINANCE)] = "Finance";
+        tags[uint(Tags.BUSINESS)] = "Business";
+        tags[uint(Tags.FAMILY)] = "Family";
+        tags[uint(Tags.RANDOM)] = "Random";
+
+        return tags;
     }
 
+    // retrieve all the users with access to your vault
     function getUsersWithAccess() public view returns (Access[] memory) {
         return AccessList[msg.sender];
     }
