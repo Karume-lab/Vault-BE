@@ -27,6 +27,7 @@ contract Vault {
         string name;
         string description;
         string extension;
+        string size;
         Tags tag;
     }
 
@@ -49,6 +50,7 @@ contract Vault {
         address _owner,
         string memory _name,
         string memory _description,
+        string memory _size,
         string memory _extension,
         bool _isFavourite,
         Tags _tag,
@@ -62,6 +64,7 @@ contract Vault {
             dateAccessed: 0,
             isFavourite: _isFavourite,
             isArchived: false,
+            size: _size,
             cid: _cid,
             name: _name,
             description: _description,
