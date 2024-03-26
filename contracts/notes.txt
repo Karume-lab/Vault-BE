@@ -1,7 +1,7 @@
-rename 'value' to 'Files'
-change 'ownership' to 'Vault'
+# rename 'value' to 'Files'
+# change 'ownership' to 'Vault'
 
-structs: {
+# structs: {
 File =>
 id: int,
 url: string          ;
@@ -18,17 +18,17 @@ Access =>
 user: address,
 hasAccess: bool
 }
-arrays: {
+# arrays: {
 Access[]
 Files[]
 }
 
-mappings: {
+# mappings: {
 Files => address: File[],
 Vault => address: mapping(address: bool)
 AccessList => address: Access[]
 }
-enums: {
+# enums: {
 Tag => id,
 name                                     ;
 }
@@ -49,4 +49,4 @@ sign out
 # post MVP
 deleting Files
 searching
-modify the code to use hooks instead of tradition JS DOM
+modify the code to use hooks instead of traditional JS DOM

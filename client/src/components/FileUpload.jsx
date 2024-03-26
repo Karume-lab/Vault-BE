@@ -5,8 +5,10 @@ import TagsDropdown from "./TagsDropdown";
 
 const FileUpload = ({ contract, account }) => {
   const [file, setFile] = useState(null);
-  const [fileName, setFileName] = useState("No image selected");
+  const [fileName, setFileName] = useState("No file selected");
   const { enqueueSnackbar } = useSnackbar();
+  const [fileDescription, setFileDescription] = useState("")
+  const [isFavourite, setIsFavourite] = useState(false)
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (file) {
@@ -29,7 +31,7 @@ const FileUpload = ({ contract, account }) => {
         );
 
         // user, name, description, extension, isFavorite, tag, cid
-        contract.uploadFile(account, fileName, document.querySelector("#fileDescription").value, fileExtension, document.querySelector("#isFavourite").checked, 1, resFile.data.IpfsHash);
+        contract.uploadFile(account, fileName, fileDescription, fileExtension, isFavourite, 1, resFile.data.IpfsHash);
         enqueueSnackbar('Successfully Image Uploaded', { variant: 'success' });
         setFileName("No image selected");
         setFile(null);
@@ -77,10 +79,10 @@ const FileUpload = ({ contract, account }) => {
 
         <div>
           <label htmlFor="isFavourite">Favourite:</label>
-          <input id="isFavourite" type="checkbox" />
+          <input id="isFavourite" value={isFavourite} onChange={(e) => setIsFavourite(e.target.value)} type="checkbox" />
         </div>
 
-        <textarea name="fileDescription" id="fileDescription" cols="30" rows="10" placeholder="File Description"></textarea>
+        <textarea name="fileDescription" id="fileDescription" cols="30" rows="10" placeholder="File Description" value={fileDescription} onChange={(e) => setFileDescription(e.target.value)}></textarea>
         <TagsDropdown contract={contract} />
 
         <button
