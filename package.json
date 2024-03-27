@@ -5,7 +5,7 @@
   },
   "scripts": {
     "start": "npx hardhat node",
-    "deploy": "npx hardhat run scripts/deploy.js --network localhost && cp ./client/src/artifacts/contracts/Vault.sol/Vault.json  ./client/src/abi/"
+    "deploy": "npx hardhat run scripts/deploy.js --network localhost && cp ./artifacts/contracts/Vault.sol/Vault.json  ./abi"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^4.0.0"
