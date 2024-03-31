@@ -18,13 +18,18 @@
 - [Architecture](#architecture)
 - [Design](#design)
 - [Tech Stack](#tech-stack)
+- [How to run locally](#how-to-run-locally)
+  - [Backend Setup](#backend-setup)
+  - [Smart Contract Deployment](#smart-contract-deployment)
+  - [Pinata API Key Setup](#pinata-api-key-setup)
+  - [Frontend Setup](#frontend-setup)
 - [Currently Available Features](#currently-available-features)
 - [Future Plans](#future-plans)
 
 ## Demo
 
 <video width="640" height="360" controls>
-  <source src="./README_ASSETS/demo.mp4" type="video/mp4">
+  <source src="./demo.mp4" type="video/mp4">
 </video>
 
 ## Introduction
@@ -131,32 +136,103 @@ Below is the mockup for our single-page application. The app consists of two pri
     </div>
 </div>
 
+## How to run locally
+
+- Below are steps to follow in order to run Vault locally.
+
+### Backend Setup
+
+1. Clone the backend repository:
+
+   ```bash
+   git clone https://github.com/Karume-lab/Vault-BE
+   ```
+
+2. Navigate to the backend directory:
+
+   ```bash
+   cd Vault-BE
+   ```
+
+3. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+### Smart Contract Deployment
+
+1. Start the backend server:
+
+   ```bash
+   npm run start
+   ```
+
+2. Copy one of the private keys generated and add the account to Metamask. You can find more information [here](https://youtu.be/wDueg2_aOTA).
+3. Deploy the smart contract from the backend repository:
+
+   ```bash
+   npm run deploy
+   ```
+
+### Pinata API Key Setup
+
+1. Obtain a Pinata API key. You can find more information [here](https://www.youtube.com/watch?v=l4vPAeBtdms).
+
+Here's the corrected version of the frontend setup guide:
+
+### Frontend Setup
+
+1. Clone the frontend repository:
+
+   ```bash
+   git clone https://github.com/Peachy-Njenga/Vault-FE
+   ```
+
+2. Navigate to the frontend directory:
+
+   ```bash
+   cd Vault-FE
+   ```
+
+3. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+4. Create a `.env` file for the frontend from the `.env.example` file and fill in the first three variables for local development.
+
+5. Copy the generated contract address from running `npm run dpeloy` in the backend repository to the `.env` file in the frontend repository.
+
+6. Start the frontend server:
+
+   ```bash
+   npm run start
+   ```
+
 ## Currently Available Features
 
 1. **Uploading Files to the Blockchain**: Users can upload their files directly to the blockchain through the Vault dapp. This process ensures that the files are securely stored on the decentralized network, providing immutability and tamper-proofing.
 
-2. **Viewing Files Uploaded to the Blockchain**: Once uploaded, users can view and access their files directly through the Vault dapp. This allows users to manage their files and access them from anywhere with an internet connection.
+2. **Connecting Wallet Addresses from MetaMask**: The integration with MetaMask enables users to connect their Ethereum wallet addresses to the Vault dapp. This connection is necessary for interacting with the blockchain, such as uploading files, accessing stored files, and managing account settings.
 
-3. **Connecting Wallet Addresses from MetaMask**: The integration with MetaMask enables users to connect their Ethereum wallet addresses to the Vault dapp. This connection is necessary for interacting with the blockchain, such as uploading files, accessing stored files, and managing account settings.
+3. **Downloading Uploaded Files to the Local Computer**: Users have the ability to download their uploaded files from the blockchain to their local computer. This feature ensures that users can retrieve and use their files outside of the Vault dapp as needed.
 
-4. **Downloading Uploaded Files to the Local Computer**: Users have the ability to download their uploaded files from the blockchain to their local computer. This feature ensures that users can retrieve and use their files outside of the Vault dapp as needed.
+4. **Marking Files as Favorites**: Users can mark specific files as favorites within the Vault dapp. This feature allows users to quickly access and identify their most frequently used or important files.
 
-5. **Marking Files as Favorites**: Users can mark specific files as favorites within the Vault dapp. This feature allows users to quickly access and identify their most frequently used or important files.
+5. **Uploading Files with Specific Tags for Faster Retrieval**: Users can assign specific tags to their uploaded files to categorize and organize them. Tags enable faster retrieval of files based on relevant keywords or categories, enhancing the user experience and efficiency of file management.
 
-6. **Uploading Files with Specific Tags for Faster Retrieval**: Users can assign specific tags to their uploaded files to categorize and organize them. Tags enable faster retrieval of files based on relevant keywords or categories, enhancing the user experience and efficiency of file management.
-
-7. **Sharing Vaults with Wallet Addresses**: Users can share their Vault storage space with other wallet addresses. This feature facilitates collaboration and file sharing among users, allowing them to grant access to specific files or folders to others within the Vault ecosystem.
+6. **Searching, Filtering, and Sorting**: This involves enhancing the user experience by implementing functionality that allows users to search for specific files, filter files based on criteria like tags or upload date, and sort files in different orders (e.g., alphabetical, chronological).
 
 ## Future Plans
 
-1. **Searching, Filtering, and Sorting**: This involves enhancing the user experience by implementing functionality that allows users to search for specific files, filter files based on criteria like tags or upload date, and sort files in different orders (e.g., alphabetical, chronological).
+1. **Subscriptions and Freemium Model**: The team plans to introduce subscription-based features using a freemium model. Freemium refers to offering basic services for free while charging for premium features. This could involve different tiers of subscription plans with varying levels of access or features. Limits may be imposed on daily activities like file shares and uploads for users on the free plan.
 
-2. **Subscriptions and Freemium Model**: The team plans to introduce subscription-based features using a freemium model. Freemium refers to offering basic services for free while charging for premium features. This could involve different tiers of subscription plans with varying levels of access or features. Limits may be imposed on daily activities like file shares and uploads for users on the free plan.
+2. **Improved UI Responsiveness**: Enhancing the responsiveness of the user interface ensures that the application adapts well to different screen sizes and devices. This includes optimizing layout, design, and interactions to provide a seamless experience across desktop and mobile platforms.
 
-3. **Improved UI Responsiveness**: Enhancing the responsiveness of the user interface ensures that the application adapts well to different screen sizes and devices. This includes optimizing layout, design, and interactions to provide a seamless experience across desktop and mobile platforms.
+3. **Multiple Tags for Files**: Allowing files to have multiple tags enables users to categorize and organize their files more effectively. This flexibility enhances search and retrieval capabilities, as files can be associated with multiple topics or categories.
 
-4. **Multiple Tags for Files**: Allowing files to have multiple tags enables users to categorize and organize their files more effectively. This flexibility enhances search and retrieval capabilities, as files can be associated with multiple topics or categories.
+4. **Collecting More User Details**: Gathering additional user details during the wallet connection stage can enhance user profiles and provide valuable insights for personalization and targeted features. This may include preferences, usage patterns, and demographic information.
 
-5. **Collecting More User Details**: Gathering additional user details during the wallet connection stage can enhance user profiles and provide valuable insights for personalization and targeted features. This may include preferences, usage patterns, and demographic information.
-
-6. **Rewarding Users with Ethers**: Implementing a rewards system where users earn ethers (cryptocurrency) for sharing Vaults via the platform incentivizes user engagement and promotes growth. Users may receive ethers based on various criteria, such as the number of shares or the popularity of their shared content.
+5. **Rewarding Users with Ethers**: Implementing a rewards system where users earn ethers (cryptocurrency) for sharing Vaults via the platform incentivizes user engagement and promotes growth. Users may receive ethers based on various criteria, such as the number of shares or the popularity of their shared content.
