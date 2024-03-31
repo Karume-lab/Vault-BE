@@ -179,8 +179,6 @@ Below is the mockup for our single-page application. The app consists of two pri
 
 1. Obtain a Pinata API key. You can find more information [here](https://www.youtube.com/watch?v=l4vPAeBtdms).
 
-Here's the corrected version of the frontend setup guide:
-
 ### Frontend Setup
 
 1. Clone the frontend repository:
