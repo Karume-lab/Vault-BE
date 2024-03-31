@@ -16,7 +16,6 @@ contract Vault {
 
     // contains metadata for each file
     struct File {
-        uint id;
         address owner;
         uint dateUploaded;
         uint dateModified;
@@ -57,7 +56,6 @@ contract Vault {
         string memory _cid
     ) external {
         File memory file = File({
-            id: getId(),
             owner: _owner,
             dateUploaded: block.timestamp,
             dateModified: 0,
@@ -74,18 +72,6 @@ contract Vault {
         Files[msg.sender].push(file);
     }
 
-    // generates a unique ID based on the number of the files uploaded by the user
-    function getId() internal view returns (uint) {
-        uint id;
-        uint noOfFiles = Files[msg.sender].length;
-        if (noOfFiles == 0) {
-            id = 0;
-        } else {
-            id = noOfFiles + 1;
-        }
-        return id;
-    }
-
     // get all files for the connected wallet
     function getFiles(address _user) external view returns (File[] memory) {
         require(
@@ -95,63 +81,25 @@ contract Vault {
         return Files[_user];
     }
 
-    // get all files for the specified tag for the connected wallet
-    function getFilesByTag(
-        address _user,
-        uint _tag
-    ) external view returns (File[] memory) {
-        require(
-            _user == msg.sender || MyVault[_user][msg.sender],
-            "You don't have access"
-        );
-
-        File[] memory allFiles = Files[_user];
-        File[] memory filesWithTag = new File[](allFiles.length);
-        uint256 count = 0;
-
-        // Iterate through all files and filter out the favourite ones
-        for (uint256 i = 0; i < allFiles.length; i++) {
-            if (uint(allFiles[i].tag) == _tag) {
-                filesWithTag[count] = allFiles[i];
-                count++;
+    // mark or unmark a file as a favourite and return the CID
+    function toggleFavourite(
+        string memory _cid
+    ) external returns (string memory) {
+        for (uint i = 0; i < Files[msg.sender].length; i++) {
+            if (
+                keccak256(abi.encodePacked(Files[msg.sender][i].cid)) ==
+                keccak256(abi.encodePacked(_cid))
+            ) {
+                Files[msg.sender][i].isFavourite = !Files[msg.sender][i]
+                    .isFavourite;
+                return _cid;
             }
         }
-        // Resize the array to remove any empty slots
-        assembly {
-            mstore(filesWithTag, count)
-        }
-        return filesWithTag;
+        revert("File with the given CID not found");
     }
 
-    // Get all files marked as favourite for the connected wallet
-    function getFilesMarkedAsFavourite(
-        address _user
-    ) external view returns (File[] memory) {
-        require(
-            _user == msg.sender || MyVault[_user][msg.sender],
-            "You don't have access"
-        );
-
-        File[] memory allFiles = Files[_user];
-        File[] memory favouriteFiles = new File[](allFiles.length);
-        uint256 count = 0;
-
-        // Iterate through all files and filter out the favourite ones
-        for (uint256 i = 0; i < allFiles.length; i++) {
-            if (allFiles[i].isFavourite) {
-                favouriteFiles[count] = allFiles[i];
-                count++;
-            }
-        }
-        // Resize the array to remove any empty slots
-        assembly {
-            mstore(favouriteFiles, count)
-        }
-        return favouriteFiles;
-    }
-
-    // share your vault to an address
-    function shareVault(address user) external {
+    // share a file in your vault to an address
+    function shareFile(address user) external {
         MyVault[msg.sender][user] = true;
         if (PreviousAccess[msg.sender][user]) {
             for (uint i = 0; i < AccessList[msg.sender].length; i++) {
@@ -165,8 +113,8 @@ contract Vault {
         }
     }
 
-    // unshare your vault from an address
-    function unshareVault(address user) public {
+    // unshare a file in your vault from an address
+    function unshareFile(address user) public {
         MyVault[msg.sender][user] = false;
         for (uint i = 0; i < AccessList[msg.sender].length; i++) {
             if (AccessList[msg.sender][i].user == user) {
