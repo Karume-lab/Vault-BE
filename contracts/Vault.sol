@@ -121,14 +121,13 @@ contract Vault {
      * @dev Gets all files for the caller's address.
      * @return Array of file objects.
      */
-    function getFiles() external returns (File[] memory) {
+    function getFiles() external view returns (File[] memory) {
         File[] memory files = new File[](allKeys.length);
 
         uint256 index = 0;
         for (uint256 i = 0; i < allKeys.length; i++) {
             string memory cid = allKeys[i];
             if (userFiles[msg.sender][cid].owner == msg.sender) {
-                userFiles[msg.sender][cid].dateAccessed = block.timestamp;
                 files[index] = userFiles[msg.sender][cid];
                 index++;
             }
@@ -142,8 +141,7 @@ contract Vault {
      * @param _cid IPFS CID of the file.
      * @return File object.
      */
-    function getFile(string memory _cid) external returns (File memory) {
-        userFiles[msg.sender][_cid].dateAccessed = block.timestamp;
+    function getFile(string memory _cid) external view returns (File memory) {
         return userFiles[msg.sender][_cid];
     }
 
@@ -316,11 +314,7 @@ contract Vault {
      * @dev Retrieves all files shared with the connected wallet address.
      * @return Array of SharedFile structs representing files shared with the connected wallet address.
      */
-    function getFilesSharedWithMe()
-        external
-        view
-        returns (SharedFile[] memory)
-    {
+    function getFilesSharedWithMe() external view returns (File[] memory) {
         uint256 totalFilesShared = 0;
 
         // Count the total number of files shared with the connected wallet address
@@ -330,9 +324,7 @@ contract Vault {
         }
 
         // Create an array to store shared files
-        SharedFile[] memory sharedFilesWithMe = new SharedFile[](
-            totalFilesShared
-        );
+        File[] memory sharedFilesWithMe = new File[](totalFilesShared);
         uint256 index = 0;
 
         // Populate the array with shared files
@@ -340,7 +332,11 @@ contract Vault {
             string memory cid = allKeys[i];
             for (uint256 j = 0; j < sharedFiles[cid].length; j++) {
                 if (sharedFiles[cid][j].recipient == msg.sender) {
-                    sharedFilesWithMe[index] = sharedFiles[cid][j];
+                    // Fetch file data from userFiles mapping based on CID
+                    File storage file = userFiles[sharedFiles[cid][j].owner][
+                        cid
+                    ];
+                    sharedFilesWithMe[index] = file;
                     index++;
                 }
             }
