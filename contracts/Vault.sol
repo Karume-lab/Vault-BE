@@ -152,21 +152,24 @@ contract Vault {
      * @param _cid IPFS CID of the file.
      * @param _name New name of the file.
      * @param _description New description of the file.
+     * @param _isFavourite New favourite value of the file.
+     * @param _isArchived New archived value of the file.
      * @param _tag New tag of the file.
-     * @param _extension New extension of the file.
      */
     function editFile(
         string memory _cid,
         string memory _name,
         string memory _description,
-        Tags _tag,
-        string memory _extension
+        bool _isFavourite,
+        bool _isArchived,
+        Tags _tag
     ) external fileExists(msg.sender, _cid) {
         File storage file = userFiles[msg.sender][_cid];
         file.name = _name;
         file.description = _description;
+        file.isFavourite = _isFavourite;
+        file.isArchived = _isArchived;
         file.tag = _tag;
-        file.extension = _extension;
         file.dateModified = block.timestamp;
     }
 
