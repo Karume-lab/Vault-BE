@@ -32,6 +32,7 @@ contract Vault {
         uint256 dateModified; // Timestamp when the file was last modified
         string cid; // IPFS CID of the file
         bool isFavourite; // Flag indicating if the file is marked as favorite
+        bool isShared; // Flag indicating if the file is marked as favorite
         bool isArchived; // Flag indicating if the file is archived
         bool isDeleted; // Flag indicating if the file is deleted
         string extension; // File extension
@@ -110,6 +111,7 @@ contract Vault {
             cid: _cid,
             isFavourite: _isFavourite,
             isArchived: false,
+            isShared: false,
             isDeleted: false,
             extension: _extension,
             tag: _tag
@@ -251,6 +253,8 @@ contract Vault {
         sharedFiles[_cid].push(sharedFile);
         sharedWith[_cid][_user] = true;
         userFiles[msg.sender][_cid].dateAccessed = block.timestamp;
+        // Set isShared to true when the file is shared
+        userFiles[msg.sender][_cid].isShared = true;
     }
 
     /**
@@ -271,6 +275,11 @@ contract Vault {
                 sharedWith[_cid][_user] = false;
                 break;
             }
+        }
+        // Check if the shared file array becomes empty after unsharing
+        if (files.length == 0) {
+            // Set isShared back to false if no users have access to the file
+            userFiles[msg.sender][_cid].isShared = false;
         }
         userFiles[msg.sender][_cid].dateModified = block.timestamp;
     }
